@@ -1,6 +1,9 @@
 package main;
 
-public class Atome
+import java.util.Collection;
+import java.util.Collections;
+
+public class Atome implements Comparable<Atome>
 {
     private String nom;
     private int protons;
@@ -13,26 +16,21 @@ public class Atome
     public Atome()
     {
         Atome.numAtome++;
-        this.nom = "Hydrogene";
+        this.nom = "Hydrogène";
         this.protons = 1;
         this.neutrons = 0;
         this.electrons = this.protons;
         this.idAtome = Atome.numAtome;
-
     }
 
     public double chargeAtome(int variationElectrons)
     {
-        return ((double)(this.protons - (this.electrons + variationElectrons))) * 16 * Math.pow(10, -20);
+        this.setElectrons(this.getElectrons() + variationElectrons);
+        return ((double)(this.getProtons() - (this.getElectrons() + variationElectrons))) * 16 * Math.pow(10, -20);
     }
 
-    public void changeNbElectrons(int nbElectrons){
-        this.setElectrons(this.getElectrons() - nbElectrons);
-    }
-
-
-    public boolean inMolecule(Molecule molecule) {
-        if (this.molecule == molecule)
+    public boolean lienAtomeMolecule(Molecule molecule) {
+        if (this.getMolecule() == molecule)
         {
             return true;
         }
@@ -42,6 +40,29 @@ public class Atome
         }
     }
 
+    public int compare(Atome a) {
+        int primaire = this.getNom().compareTo(a.getNom());
+        if(primaire == 1){
+            return 1;
+        } else if (primaire == 0){
+            return 0;
+        }
+        else {
+            return -1;
+        }
+    }
+
+    public int compareTo(Atome a) {
+        int primaire = this.getNom().compareTo(a.getNom());
+        if(primaire == 1){
+            return 1;
+        } else if (primaire == 0){
+            return 0;
+        }
+        else {
+            return -1;
+        }
+    }
 
     // Setters et getters
     public void setMolecule(Molecule molecule) {

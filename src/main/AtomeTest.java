@@ -9,15 +9,9 @@ import org.junit.jupiter.api.Test;
 public class AtomeTest
 {
     private Atome hydrogene;
+    private Atome lithium;
     private Noyau noyauHydrogene;
-
-    // DÃ©finissez ici les variables d'instance nÃ©cessaires Ã  vos engagements;
-    // Vous pouvez Ã©galement les saisir automatiquement du prÃ©sentoir
-    // Ã  l'aide du menu contextuel "PrÃ©sentoir --> Engagements".
-    // Notez cependant que ce dernier ne peut saisir les objets primitifs
-    // du prÃ©sentoir (les objets sans constructeur, comme int, float, etc.).
-
-
+    private Molecule mol1;
 
     /**
      * Constructeur de la classe-test AtomeTest
@@ -35,7 +29,19 @@ public class AtomeTest
     public void setUp() // throws java.lang.Exception
     {
         hydrogene = new Atome();
+
         noyauHydrogene = new Noyau();
+
+        mol1 = new Molecule();
+        mol1.ajouterAtome(hydrogene);
+
+        lithium = new Atome();
+        lithium.setElectrons(3);
+        lithium.setNeutrons(0);
+        lithium.setNom("Lithium");
+        lithium.setProtons(3);
+        mol1.ajouterAtome(lithium);
+
     }
 
     /**
@@ -58,7 +64,33 @@ public class AtomeTest
     @Test
     public void testExplosionNoyau()
     {
-        assertEquals(2.7E-46, noyauHydrogene.explosionNoyau(hydrogene, -1), 0.1);
+        assertEquals(2.7E-46, noyauHydrogene.explosionNoyau(-1), 0.1);
+    }
+
+    @Test
+    public void testSommeElectrons(){
+        assertEquals(4, mol1.sommeElectrons());
+    }
+
+    @Test
+    public void testSommeNeutrons(){
+        assertEquals(0, mol1.sommeNeutrons());
+    }
+
+    @Test
+    public void testNomenclature(){
+        assertEquals("Hyd-Lit", mol1.nomenclature(3));
+    }
+
+    @Test
+    public void testContainsAtome()
+    {
+        checkLien(hydrogene, mol1);
+    }
+
+    private void checkLien(Atome a, Molecule m) {
+        assertTrue(m.lienAtomeMolecule(a));
+        assertTrue(a.lienAtomeMolecule(m));
     }
 }
 
